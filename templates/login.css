@@ -1,0 +1,18 @@
+.registration-form{
+    
+    margin: auto;
+    padding: 30px 70px;
+   border-radius: 30px;
+
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+
+@media (max-width: 576px) {
+    .registration-form form{
+        padding: 50px 20px;
+    }
+
+  
+}
+

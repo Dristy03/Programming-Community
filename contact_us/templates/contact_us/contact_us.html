@@ -1,0 +1,169 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    body {
+        background: url(http://11.madbet24.myjino.ru/img/fon.jpg) no-repeat;
+        background-size: cover;
+        font-family: 'Josefin Sans', sans-serif;
+    }
+
+    input,
+    textarea {
+        border: 1px solid #f1cc26;
+        box-sizing: border-box;
+        border-radius: 20px;
+        font-weight: 300;
+        font-size: 18px;
+        color: #9C9C9C;
+        font-family: inherit;
+        padding: 13px 25px;
+        background: transparent;
+
+        width: 350px;
+        max-width: 100%;
+    }
+
+
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    @media (min-width: 576px) {
+        .container {
+            max-width: 540px;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            max-width: 720px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .container {
+            max-width: 960px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1140px;
+        }
+    }
+
+
+
+
+    .wrapper {
+        margin: 70px 0;
+
+    }
+
+    .form {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .left-col {
+        width: 40%;
+        padding: 100px 30px 0 30px;
+        background: linear-gradient(to bottom, #f1cc26, #f5ee8d);
+
+    }
+
+
+
+
+    .right-col {
+        width: 60%;
+        padding: 50px 30px 0 30px;
+        background: rgba(255, 255, 255, 0.7);
+
+    }
+
+    .right-col h2 {
+        margin-bottom: 50px;
+        font-size: 25px;
+        color: #585858;
+        font-weight: 600;
+    }
+
+    .right-col button {
+        background: linear-gradient(299.5deg, #f1cc26 35.53%, #f5ee8d 109.8%);
+        border-radius: 18px;
+        font-size: 20px;
+        color: #000000;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 992px) {
+        .form {
+            display: block;
+        }
+
+        .right-col,
+        .left-col {
+            width: 100%;
+            padding: 40px 0;
+        }
+
+    }
+</style>
+
+{% include 'snippets/navbar.html' %}
+
+<div class="container">
+    {% if mail_sent == 1 %}
+    <div class="jumbotron text-center" style="margin-top: 100px;">
+        <h4 class="display-5">Thank You {{request.user.first_name}}!</h4>
+        <p class="lead">We have received your mail and will respond shortly...</p>
+    </div>
+
+    {% else %}
+    
+
+    <div class="wrapper">
+        <div class="form">
+            <div class="left-col">
+                <img src="{% static 'mail.png' %}" alt="" height="100px" width="100px">
+                <br>
+                <br>
+                <h6>Whether you have a question, report an issue or
+                    have a better suggestion, feel free to send us a mail
+                    in the contact form.
+                </h6>
+                <h6>We would love to hear from you.
+                </h6>
+            </div>
+            <div class="right-col">
+                <h2>Leave us a message!</h2>
+                <form action="" method="POST">
+                    {%csrf_token%}
+                    <div class="form-group">
+                        <input id="subject" type="text" name="subject" required placeholder="Subject">
+                    </div>
+
+                    <div class="form-group">
+                        <textarea type="text" name="message" required rows="5" placeholder="Message"></textarea>
+                    </div>
+                    <button id="submit" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

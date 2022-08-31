@@ -1,0 +1,119 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .registration-form {
+
+        margin: auto;
+        padding: 30px 70px;
+        border-radius: 30px;
+
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+    @media (max-width: 576px) {
+        .registration-form form {
+            padding: 50px 20px;
+        }
+    }
+
+    .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+    }
+</style>
+{% include 'snippets/navbar.html' %}
+<div class="container my-5">
+    {% if success_message%}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{success_message}}</strong> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif%}
+
+    
+    
+    <div class="registration-form bg-white shadow">
+
+
+
+        <div class="row no-gutter">
+            <!-- The image half -->
+            <div class="col-md-5 d-none d-md-flex">
+
+                <img src="{% static 'developer1.svg' %}" alt="" class="img-fluid">
+                <div class="top-left">
+                    <h4 class="text-warning "><strong>LOGIN</strong></h4>
+                </div>
+
+            </div>
+
+
+            <!-- The content half -->
+            <div class="col-md-7">
+                <div class="login d-flex align-items-center py-5">
+
+                    <!-- Demo content-->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 col-xl-7 mx-auto">
+
+                                <h3 class="display-5">Welcome Back!</h3>
+                                <p class="text-warning mb-4"><strong>Please login with your email and password to keep
+                                        connected with the community.</strong>
+                                </p>
+                                <form method="post">{% csrf_token %}
+                                    <div class="form-group mb-3">
+                                        <input id="inputEmail" type="email" placeholder="Email address" required
+                                            autofocus name="email"
+                                            class="form-control rounded-pill border-1 shadow-sm px-4">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input id="inputPassword" type="password" placeholder="Password" required
+                                            name="password"
+                                            class="form-control rounded-pill border-1 shadow-sm px-4 text-primary">
+                                    </div>
+                                    {% for field in login_form %}
+                                    <p>
+                                        {% for error in field.errors %}
+                                    <p style="color: red">Invalid Username or Password</p>
+                                    {% endfor %}
+                                    </p>
+                                    {% endfor %}
+                                    {% if login_form.non_field_errors %}
+                                    <div style="color: red">
+                                        <p>Invalid Username or Password</p>
+                                    </div>
+                                    {% endif %}
+                                    {% comment %}<div class="custom-control custom-checkbox mb-3">
+                                        <input id="customCheck1" type="checkbox" checked class="custom-control-input">
+                                        <label for="customCheck1" class="custom-control-label">Remember
+                                            password</label>
+                                    </div>{% endcomment %}
+                                    <input value="Login" type="submit"
+                                        class="btn btn-warning btn-block font-weight-bold text-uppercase mb-2 rounded-pill shadow-sm">
+                                    <div class="text-center d-flex justify-content-between mt-4">
+                                        <p>Do you have any account? <a href="{% url 'register' %}"
+                                                class="font-weight-bold text-dark">
+                                                Register Now</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- End -->
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

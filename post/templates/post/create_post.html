@@ -1,0 +1,37 @@
+{% extends 'snippets/base.html' %}
+
+{% block content %}
+
+
+{% include 'snippets/navbar.html' %}
+<div class="container mt-4">
+    <h4 class="text-warning mb-0"><strong>Create a post</strong>
+    </h4>
+    <small>Share with us any problem you face, any knowledge you want to spread out in the community or inform us
+        about workshops and contests</small>
+
+    <br>
+    <br>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div >
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+          
+        </div>
+
+        <div class="form-group mt-4">
+            <button class="btn btn-warning btn-sm px-3 my-0 mr-0" type="submit" formnovalidate="formnovalidate">Post<i
+                    class="fas fa-paper-plane pl-2"></i></button>
+        </div>
+    </form>
+
+</div>
+
+
+
+
+
+{% endblock content %}

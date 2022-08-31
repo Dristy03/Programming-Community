@@ -1,0 +1,140 @@
+<style>
+
+.avatar img {
+    height: 35px;
+    width: 35px;
+}
+.first_button {
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+</style>
+
+{% load static custom_tags %}
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light stroke scrolling-navbar mx-3">
+    {% if request.user.is_authenticated %}
+    <a class="navbar-brand" href="{% url 'home' %}"><img class="mr-2 " alt=""><strong style="font-size: 22px;">SUST<span
+        class="text-warning">PC</span></strong> </a>
+    {%else%}
+    <a class="navbar-brand" href="{% url 'welcome' %}"><img class="mr-2 " alt=""><strong style="font-size: 22px;">SUST<span
+        class="text-warning">PC</span></strong> </a>
+    {%endif%}
+     
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <form class="form-inline justify-content-between ml-auto ">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active ">
+                <a class="nav-link font-weight-bold" href="{% url 'home' %}">Home</a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link font-weight-bold" href="{% url 'resource' %}">Resources</a>
+            </li>
+            
+            {% if request.user.is_authenticated %}
+            <li class='nav-item'>
+                {% show_notifications%}                
+             </li>
+            <li class="nav-item avatar ml-3">
+                <a class="nav-link p-0" href="#">
+                    {% if request.user.image %}
+                    <img src="{{MEDIA_URL}}/media/{{request.user.image}}" class="rounded-circle z-depth-0 " alt="avatar image" height="35">
+                    {% else %}<img src="{% static 'user.png' %}" />{% endif %}
+                </a>
+            </li>
+
+            <li class="nav-item notifications dropdown active">
+                <a class="nav-link btn dropdown font-weight-bold text-warning" id="navbarDropdownMenuLink-55"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if request.user.role == 'Teacher' %}
+                    <strong >{{request.user.first_name}}</strong> <sup><span class="badge rounded-pill bg-dark text-white"> Teacher</span></sup>
+                    {% else %}
+                    <strong >{{request.user.first_name}}</strong>
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                    aria-labelledby="navbarDropdownMenuLink-55">
+                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'contests' %}">Contests</a>
+                    <a class="dropdown-item" href="{% url 'menu_default' %}">Our Community</a>
+                    <a class="dropdown-item" href="{% url 'contact_us' %}">Help and Support</a>
+                    <hr class="dropdown-divider">
+                    <a class="dropdown-item font-weight-bold" href="{% url 'logout' %}">Logout</a>
+                </div>
+
+            </li>
+            {% if request.user.role == 'Teacher' %}
+                {% if not request.user.profile.department  or  not request.user.profile.designation %}
+                    <li class='nav-item dropdown active'>
+                        <a class="nav-link btn dropdown font-weight-bold text-warning" id="navbarDropdownMenuLink-55"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img width='20px' length='20px' src="{% static 'warning.png' %}"class="first_button" />
+                        </a>
+                            <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary p-3"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            Please complete your profile. <a href="{% url 'profile' %}" > Click here </a>
+                            </div>  
+                    </li>
+                {%endif%}
+            {%else%}
+                {% if not request.user.profile.reg_num  or not request.user.profile.department or not request.user.profile.batch %}
+                    <li class='nav-item dropdown active'>
+                        <a class="nav-link btn dropdown font-weight-bold text-warning" id="navbarDropdownMenuLink-55"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img width='20px' length='20px' src="{% static 'warning.png' %} " class="first_button" />
+                        </a>
+                            <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary p-3"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            <div >Please complete your profile. <a href="{% url 'profile' %}" > Click here </a></div> 
+                            </div>  
+                    </li>
+                {%endif%}
+            {%endif%}
+
+            
+
+
+            <!-- <li class="nav-item "> 
+                <a class="nav-link text-warning" href="#"></a>
+            </li> -->
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link btn btn-warning btn-round-sm btn-sm font-weight-bold"
+                    href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

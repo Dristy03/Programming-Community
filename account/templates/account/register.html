@@ -1,0 +1,158 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+    .registration-form{
+
+    margin: auto;
+    padding: 30px 70px;
+   border-radius: 30px;
+
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+
+@media (max-width: 576px) {
+    .registration-form form{
+        padding: 50px 20px;
+    }
+
+
+}
+
+  .top-left {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+    }
+
+    </style>
+    {% include 'snippets/navbar.html' %}
+    <div class="container my-4">
+
+        <div class="registration-form bg-white shadow">
+
+
+
+                <div class="row no-gutter">
+                    <!-- The image half -->
+                    <div class="col-md-5 d-none d-md-flex" >
+
+                        <img src="{% static 'developer1.svg' %}" alt="" class="img-fluid">
+                        <div class="top-left">
+                            <h4 class="text-warning "><strong>REGISTER</strong></h4>
+                        </div>
+
+                    </div>
+
+
+                    <!-- The content half -->
+                    <div class="col-md-7">
+                        <div class="login d-flex align-items-center py-5">
+
+                            <!-- Demo content-->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-10 col-xl-7 mx-auto">
+
+                                        <h3 class="display-5">Hello there!</h3>
+                                        <p class="text-warning mb-4"><strong>Create your account and join our community.
+                                        </strong>
+                                        </p>
+                                        <form class="create-form form-signin" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+
+                                              {#radio part#}
+                                                {% comment %}<div class="container-inline">
+                                                        {{ registration_form.role }}
+
+                                                </div>{% endcomment %}
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="role" id="Student" value="Student" checked>
+                                                <label class="form-check-label" for="Student">
+                                                    Student
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="role" id="Teacher" value="Teacher" >
+                                                <label class="form-check-label" for="Teacher">
+                                                    Teacher
+                                                </label>
+                                            </div>
+                                            <div class="form-group mb-3 mt-2">
+                                                <input id="inputEmail" type="email" placeholder="Email address" name="email"
+                                                    required autofocus
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4" value="{{ account_form.initial.email }}">
+                                            </div>
+
+                                            <div class="form-row mb-3 mt-2">
+                                                <div class="col">
+                                                    <input id="inputFirstName" type="text" placeholder="First Name" name="first_name"
+                                                    required
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4" value="{{ account_form.initial.first_name }}">
+                                                </div>
+                                                <div class="col">
+                                                    <input id="inputLastName" type="text" placeholder="Last Name" name="last_name"
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4" value="{{ account_form.initial.last_name }}">
+                                                </div>
+                                              </div>
+
+                                            <!-- <div class="form-group mb-3 mt-2">
+                                                <input id="inputFirstName" type="text" placeholder="First Name" name="first_name"
+                                                    required
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4" value="{{ account_form.initial.first_name }}">
+                                            </div>
+                                            <div class="form-group mb-3 mt-2">
+                                                <input id="inputLastName" type="text" placeholder="Last Name" name="last_name"
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4" value="{{ account_form.initial.last_name }}">
+                                            </div> -->
+                                            <div class="form-group mb-3">
+                                                <input id="inputPassword1" type="password"  name="password1" placeholder="Password"
+                                                    required
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4 text-primary">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <input id="inputPassword2" type="password"  name="password2" placeholder="Confirm Password"
+                                                    required
+                                                    class="form-control rounded-pill border-1 shadow-sm px-4 text-primary">
+                                            </div>
+
+                                            {% for field in registration_form %}
+                                                <p>
+                                                    {% for error in field.errors %}
+                                                        <p style="color: red">{{ error }}>
+                                                    {% endfor %}
+                                                </p>
+                                            {% endfor %}
+                                            {% if registration_form.non_field_errors %}
+                                                <div style="color: red">
+                                                    <p>{{registration_form.non_field_errors}}</p>
+                                                </div>
+
+                                            {% endif %}
+
+                                            <input  type="submit" value="submit"
+                                                class="btn btn-warning btn-block font-weight-bold text-uppercase mb-2 rounded-pill shadow-sm ">
+
+                                            <div class="text-center d-flex justify-content-between mt-4">
+                                                <p>Already a member? <a href="{% url 'login' %}"
+                                                        class="font-weight-bold text-dark">
+                                                        Login Now</a></p>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- End -->
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+        </div>
+    </div>
+{% endblock %}
+

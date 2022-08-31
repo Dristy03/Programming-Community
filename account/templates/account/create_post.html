@@ -1,0 +1,49 @@
+{% extends 'snippets/base.html' %}
+
+{% block content %}
+<style>
+    #editor-container {
+        height: 375px;
+
+    }
+</style>
+
+{% include 'snippets/navbar.html' %}
+<div class="container mt-4">
+    <h4 class="text-warning mb-0"><strong>Create a post</strong>
+    </h4>
+    <small>Share with us any problem you face, any knowledge you want to spread out in the community or inform us
+        about workshops and contests</small>
+
+    <br>
+    <br>
+    <div id="editor-container">
+    </div>
+    <div class="text-right mt-4">
+        <button class="btn btn-secondary btn-md px-3 my-0 mr-0">Cancel<i class="fas fa-ban pl-2"></i></button>
+        <button class="btn btn-warning btn-md px-3 my-0 mr-0">Post<i class="fas fa-paper-plane pl-2"></i></button>
+    </div>
+</div>
+
+
+
+
+<script>
+    var quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: [
+                [{ 'font': [] }],
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'blockquote', 'code-block'],
+                [{ 'color': [] }]
+
+            ]
+        },
+        placeholder: 'Compose a post...',
+        theme: 'snow'
+    });
+
+
+</script>
+{% endblock content %}

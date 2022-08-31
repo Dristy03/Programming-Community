@@ -1,0 +1,340 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    .user-box {
+        width: 110px;
+        margin: auto;
+        margin-bottom: 20px;
+
+    }
+
+    .user-box img {
+        width: 100%;
+        border-radius: 50%;
+        padding: 3px;
+        background: #fff;
+        -webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+        -ms-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-card-2 .card {
+        position: relative;
+    }
+
+
+
+    .profile-card-4 .user-box {
+        width: 110px;
+        margin: auto;
+        margin-bottom: 10px;
+        margin-top: 15px;
+    }
+
+    .profile-card-4 .list-icon {
+        display: table-cell;
+        font-size: 30px;
+        padding-right: 20px;
+        vertical-align: middle;
+        color: #223035;
+    }
+
+    .profile-card-4 .list-details {
+        display: table-cell;
+        vertical-align: middle;
+        font-weight: 600;
+        color: #223035;
+        font-size: 15px;
+        line-height: 15px;
+    }
+
+    .profile-card-4 .list-details small {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 12px;
+        font-weight: 400;
+        color: #808080;
+    }
+</style>
+
+{% include 'snippets/navbar.html' %}
+
+<div class="container mt-4 my-4">
+    {% if request.user.role == 'Teacher' %}
+    {% if not request.user.profile.department  or  not request.user.profile.designation %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> Please complete the required fields of your profile.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {%endif%}
+{%else%}
+    {% if not request.user.profile.reg_num  or not request.user.profile.department or not request.user.profile.batch %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> Please complete the required fields of your profile.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {%endif%}
+{%endif%}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="profile-card-4 shadow">
+                <div class="card">
+                    <div class="card-body text-center bg-warning rounded-top">
+                        <div class="user-box">
+                            {% if request.user.image %}
+                            <img src="{{MEDIA_URL}}/media/{{request.user.image}}">
+                            {% else %}<img src="{% static 'user.png' %}" />{% endif %}
+
+                        </div>
+                        <h5 class=" text-white">{{account_form.initial.first_name}} {{account_form.initial.last_name}}
+                        </h5>
+
+                        {% if request.user.role == 'Teacher' %}
+                            {% if profile_form.initial.designation %}
+                        <h6 class="text-light">{{profile_form.initial.designation}}</h6>
+                            {% endif%} 
+                            {% if profile_form.initial.department%}
+                                <h6>{{profile_form.initial.department}}</h6>
+                            {%endif%}
+                        {% else %}
+                        <h6 class="text-light">{{profile_form.initial.batch}} , {{profile_form.initial.department}}</h6>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group shadow-none">
+                            <li class="list-group-item">
+                                <div class="list-icon">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div class="list-details">
+                                    <span>{{ account_form.initial.email}}</span>
+                                    <small>Email Address</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="list-icon">
+                                    <i class="fa fa-phone-square"></i>
+                                </div>
+                                <div class="list-details">
+                                    <span>{{profile_form.initial.mobile_num}}</span>
+                                    <small>Mobile Number</small>
+                                </div>
+                            </li>
+
+                            {% if request.user.role == 'Teacher' %}
+                            <li class="list-group-item">
+                                <div class="list-icon">
+                                    <i class="fa fa-globe"></i>
+                                </div>
+                                <div class="list-details">
+                                    <span>{{profile_form.initial.designation}}</span>
+                                    <small>Designation</small>
+                                </div>
+                            </li>
+                            {% else %}
+                            <li class="list-group-item">
+                                <div class="list-icon">
+                                    <i class="fa fa-globe"></i>
+                                </div>
+                                <div class="list-details">
+                                    <span>{{profile_form.initial.reg_num}}</span>
+                                    <small>Registration No</small>
+                                </div>
+                            </li>
+                            {% endif %}
+                            <!-- <li class="list-group-item">
+                                <div class="list-icon">
+                                    <i class="fa fa-globe"></i>
+                                </div>
+                                <div class="list-details">
+                                    <span>{{profile_form.initial.mobile_num}}</span>
+                                    <small>Registration No</small>
+                                </div>
+                            </li> -->
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <ul class="nav nav-pills nav-justified">
+                       
+
+                        <li class="nav-item">
+                            <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link active show"><i
+                                    class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:void();" data-target="#profile" data-toggle="pill"
+                                class="nav-link "><i class="icon-user"></i> <span
+                                    class="hidden-xs">Posts</span></a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content p-3">
+                        <div class="tab-pane " id="profile" style="overflow-y: auto; height: 500px; ">
+
+                            
+                            {% for post in posts %}
+
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <span class="float-right text-muted"
+                                        style="font-size: small;">{{post.date_updated}}</span>
+
+                                    <p class="card-text mt-5">{{post.text|safe}}</p>
+                                    <a href="{% url 'post_details' post.pk %}">View Post</a>
+                                    <a class="ml-3" href="{% url 'post:edit' post.pk %} ">Edit Post</a>
+                                    <a class="ml-3" href="{% url 'post:delete' post.pk %}">Delete Post</a>
+
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="tab-pane active show" id="edit">
+                            <form class="mt-4" method="post" enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">First Name</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name='first_name' type="text"
+                                            value="{{account_form.initial.first_name}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Last Name</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" name='last_name' type="text"
+                                            value="{{account_form.initial.last_name}}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="email" name='email'
+                                            value="{{account_form.initial.email}}">
+                                    </div>
+                                </div>
+                                {% if request.user.role == 'Teacher' %}
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Department</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" name='department'
+                                        {% if profile_form.initial.department%}
+                                        value="{{profile_form.initial.department}}"
+                                        {%endif%}
+                                        placeholder="required">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Designation</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" name='designation'
+                                            {% if profile_form.initial.designation%}
+                                            value="{{profile_form.initial.designation}}"
+                                            {%endif%}
+                                            placeholder="required">
+                                    </div>
+
+                                </div>
+
+                                {% else %}
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Department/Batch</label>
+                                    <div class="col-lg-4">
+                                        <input class="form-control" type="text" name='department'
+                                        {% if profile_form.initial.department%}
+                                        value="{{profile_form.initial.department}}"
+                                        {%endif%}
+                                        placeholder="department (required)">
+                                        
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" type="number" name='batch'
+                                            {% if profile_form.initial.batch%}
+                                            value="{{profile_form.initial.batch}}"
+                                            {%endif%}
+                                            placeholder="Batch (required)">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Registration No</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="number" name='reg_num'
+                                            value="{{profile_form.initial.reg_num}}" 
+                                            placeholder="required">
+                                    </div>
+
+                                </div>
+                                {% endif %}
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Mobile No</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="number" name='mobile_num'
+                                            value="{{profile_form.initial.mobile_num}}" placeholder="optional">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Change profile
+                                        picture</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="file" name='image'>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Password</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="password" value="11111122333">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Confirm
+                                        password</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="password" value="11111122333">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                                    <div class="col-lg-9">
+                                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                                        <input type="submit" class="btn btn-warning" value="Save Changes">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

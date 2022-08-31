@@ -1,0 +1,93 @@
+<style>
+    .dropdown {
+        position: static !important;
+    }
+
+    .dropdown-menu {
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        margin-top: 0px !important;
+        width: 30% !important;
+        font-size: small;
+    }
+</style>
+{% load static %}
+<div class="nav-item notifications dropdown active">
+    <a class="nav-link btn dropdown font-weight-bold" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Notification <span class="badge bg-primary notification-badge">{{ unread_count}}</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55" style="overflow-y: auto; height: 500px;">
+
+        <a class="float-right text-warning mr-3 btn " style="font-size: small;" 
+            href="{% url 'mark_all' %}" >Mark all read</a>
+      
+      <br>
+      <br>
+
+        {% for notification in notifications %}
+        {%if notification.notification_type == 1 %}
+
+        {% if notification.user_has_seen %}
+        <a class="dropdown-item " href=" {% url 'post_notification' notification.pk notification.post.pk %}">
+            {%else%}
+            <a class="dropdown-item bg-light" href=" {% url 'post_notification' notification.pk notification.post.pk %}">
+                {%endif%}
+                {%if notification.from_user.image%}
+                <div class="media">
+                    {% comment %} <img src="{{MEDIA_URL}}/media/{{notification.from_user.image}}" width="36" height="36" class="rounded-circle mr-2"
+                        alt="Marie Salter"> {% endcomment %}
+                        <img src="{{notification.from_user.image.url}}" width="36" height="36" class="rounded-circle mr-2"
+                        alt = "{% static 'user.png' %}">
+                    <div class="media-body">
+                        <strong>{{notification.from_user}}</strong> created a new post
+                        <br>
+                        <small class="text-muted">{{notification.date}}</small>
+                    </div>
+                </div>
+                {%else%}
+                <div class="media">
+                    <img src="{% static 'user.png' %}" width="36" height="36" class="rounded-circle mr-2"
+                        alt="Marie Salter">
+                    <div class="media-body">
+                        <strong>{{notification.from_user}}</strong> created a new post
+                        <br>
+                        <small class="text-muted">{{notification.date}}</small>
+                    </div>
+                </div>
+                {%endif%}
+                
+            </a>
+        <br>
+            {%else%}
+            {% if notification.user_has_seen %}
+            <a class="dropdown-item" href="{% url 'post_notification' notification.pk notification.post.pk %}">
+                {%else%}
+                <a class="dropdown-item bg-light" href="{% url 'post_notification' notification.pk notification.post.pk %}">
+                    {%endif%}
+                    {%if notification.from_user.image%}
+                <div class="media">
+                        <img src="{{notification.from_user.image.url}}" width="36" height="36" class="rounded-circle mr-2"
+                        alt="{% static 'user.png' %}">
+                    <div class="media-body">
+                        <strong>{{notification.from_user}}</strong> commented on your post
+                        <br>
+                        <small class="text-muted">{{notification.date}}</small>
+                    </div>
+                </div>
+                {%else%}
+                <div class="media">
+                    <img src="{% static 'user.png' %}" width="36" height="36" class="rounded-circle mr-2"
+                        alt="Marie Salter">
+                    <div class="media-body">
+                        <strong>{{notification.from_user}}</strong> commented on your post
+                        <br>
+                        <small class="text-muted">{{notification.date}}</small>
+                    </div>
+                </div>
+                {%endif%}
+                </a>
+              <br>
+                {%endif%}
+                {% endfor %}
+    </div>
+</div>

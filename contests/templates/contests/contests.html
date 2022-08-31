@@ -1,0 +1,51 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+<style>
+
+
+
+
+</style>
+{% block content %}
+
+
+{% include 'snippets/navbar.html' %}
+<div class="container mt-4">
+    <div class="col-md-12">
+        <h2 class="py-3 text-center font-bold font-up text-warning">Upcoming Contests</h2>
+    </div>
+  
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+  
+            <!-- Grid row -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name of the Contest</th>
+                        <th>Contest Duration</th>
+                        <th>Before The Contest</th>
+                        <th>Contest Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contest in cf_contest%}
+                        <tr class="table-success">
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{contest.name}}</td>
+                            <td>{{contest.duration}} hour{{contest.duration|pluralize}}</td>
+                            <td>{{contest.startTimeSeconds|timeuntil}}</td>
+                            <td><a href='{{contest.link}}'> Click here </a></td>
+
+                        </tr>
+                    {%endfor%}
+                 
+                </tbody>
+            </table>
+        </div>
+    </div>
+  
+   
+</div>
+{% endblock content %}

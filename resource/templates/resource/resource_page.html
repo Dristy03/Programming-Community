@@ -1,0 +1,289 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .bg-dark {
+        background-color: #105469 !important;
+    }
+
+
+    ul {
+        list-style: none;
+    }
+
+
+
+
+    .mb-30 {
+        margin-bottom: 30px;
+    }
+
+    input[type=file]::file-selector-button {
+        border: 2px solid #ffc170;
+        padding: .2em .4em;
+        border-radius: .2em;
+        background-color: #ffc170;
+        transition: 1s;
+    }
+
+    input[type=file]::file-selector-button:hover {
+        background-color: #81ecec;
+        border: 2px solid #00cec9;
+    }
+
+    .card-margin {
+    margin-bottom: 1.875rem;
+}
+
+.card {
+    border: 0;
+    box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 8px;
+}
+
+.card .card-header.no-border {
+    border: 0;
+}
+.card .card-header {
+    background: none;
+    padding: 0 0.9375rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+}
+.card-header:first-child {
+    border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
+}
+
+.widget-49 .widget-49-title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.widget-49 .widget-49-title-wrapper .widget-49-date-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #edf1fc;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+
+.widget-49 .widget-49-title-wrapper .widget-49-meeting-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+
+.widget-49 .widget-49-title-wrapper .widget-49-meeting-info .widget-49-meeting-time {
+  color: #B1BAC5;
+  font-size: 13px;
+}
+
+.widget-49 .widget-49-meeting-points {
+  font-weight: 400;
+  font-size: 13px;
+  margin-top: .5rem;
+}
+
+
+</style>
+
+{% include 'snippets/navbar.html' %}
+
+<div class="container p-5 ">
+
+    <div class="view grey lighten-3">
+        <!-- Mask & flexbox options-->
+        <div class="mask">
+            <!-- Content -->
+            <div class="container h-100">
+                <!--Grid row-->
+                <div class="row align-items-center h-100">
+                    <!--Grid column-->
+                    <div class="col-md-7">
+                        <h1 class="text-warning">Resources Gallery
+                        </h1>
+                        <p>The more we share the more we have! The ultimate storehouse of knowledge.</p>
+                        <label class="form-label" for="customFile">Want to share?</label>
+                        <form method="post" action={% url 'resource' %} enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" placeholder="File name" required autofocus name="filename"
+                                    class="form control">
+
+                                <input type='FILE' name="resourcefile" class="form control">
+
+                            </div>
+
+                            <button class="btn btn-warning " type="submit" value='Upload'>Upload</button>
+
+                        </form>
+
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-md-5">
+                        <img src="{% static 'share.svg' %}" alt="" class="img-fluid">
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Content -->
+        </div>
+        <!-- Mask & flexbox options-->
+    </div>
+
+
+</div>
+
+<div class="container   p-5 ">
+
+
+
+
+    <!-- <h2>Resources Gallery</h2>
+        <p>The more we share the more we have! The ultimate storehouse of knowledge.</p>
+        <label class="form-label" for="customFile">Want to share?</label>
+        <form method="post" action={% url 'resource' %} enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" placeholder="File name" required autofocus name="filename" class="form control">
+                <input type='FILE' name="resourcefile" class="form control">
+                <button type="submit" value='Upload'>Upload</button>
+            </div>
+
+        </form> -->
+
+    <h2>Resource List</h2>
+    For easy finding, search resources using tags.
+    <form class="mx-2 my-auto d-inline w-100">
+        <div class="input-group">
+            <input class="form-control border border-right-0" type="search" placeholder="Search..." aria-label="Search" name='q'
+            id='id_q'>
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary border border-left-0" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <div class="row">
+
+        {% for resource in resources %}
+        <div class="col-lg-4">
+            <div class="card card-margin p-3">
+               
+                <div class="card-body pt-0">
+                    <div class="widget-49">
+                        <div class="widget-49-title-wrapper">
+                            <div class="widget-49-date-primary">
+                                <img src="{% static 'book.png' %}" alt="" class="img-fluid">
+                            </div>
+                            <div class="widget-49-meeting-info">
+                                <h4 class="">{{resource.filename}}</h4>
+                                <span class="widget-49-meeting-time">{{resource.date_published}}</span>
+                            </div>
+                        </div>
+                        <h4 class="widget-49-meeting-points">
+                            Uploaded by {{resource.author.first_name}}
+                            {{resource.author.last_name}}
+                        </h4>
+                      
+                           
+                            <div class="d-flex align-right">
+                                <a href="{{resource.document.url}}" target="_blank" class="btn btn-primary btn-sm ">
+                                    Download</a>
+    
+                                {% if request.user.role == 'Teacher' or request.user.first_name == resource.author.first_name %}
+    
+                                <form method="post" action="{% url 'delete_document' resource.pk %}">
+                                    {% csrf_token %}
+                                    <button type="delete" class="btn btn-danger btn-sm ml-2 ">
+                                        Delete
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-6">
+            
+            <div class="cards shadow">
+
+                <div class="no-gutters border rounded mb-4 shadow-sm h-md-250">
+                    <div class="col p-4 flex-column position-static">
+                        <h3>{{resource.filename}}</a></h3>
+
+                        <div style="display:flex">
+                            {% for tag in resource.tags.all %}
+                            <p class="mr-1 badge badge-info">#{{ tag }}</p>
+                            {% endfor %}
+
+                        </div>
+                        <p class="mb-auto"> Uploaded by {{resource.author.first_name}}
+                            {{resource.author.last_name}}</p>
+                        <p class="mb-auto text-muted">{{resource.date_published}}</p>
+                        <div class="d-flex">
+                            <a href="{{resource.document.url}}" target="_blank" class="btn btn-primary btn-sm ">
+                                Download</a>
+
+                            {% if request.user.role == 'Teacher' or request.user.first_name == resource.author.first_name %}
+
+                            <form method="post" action="{% url 'delete_document' resource.pk %}">
+                                {% csrf_token %}
+                                <button type="delete" class="btn btn-danger btn-sm ml-2 ">
+                                    Delete
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div> -->
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+{% endblock content %}
